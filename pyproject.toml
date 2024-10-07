@@ -1,7 +1,10 @@
 [project]
 name = "model-evaluator"
 version = "0.1.0"
-description = "Add your description here"
+description = "Scrappy search and embeddings model evaluator"
+authors = [
+    {"name"="Sérgio Silva", "email"="sergio.pds@outlook.pt"}
+]
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -14,3 +17,23 @@ dependencies = [
     "sentence-transformers>=3.1.1",
     "streamlit>=1.39.0",
 ]
+
+
+[tool.poetry]
+name = "model-evaluator"
+version = "0.1.0"
+description = "Scrappy search and embeddings model evaluator"
+authors = ["Sérgio Silva <sergio.pds@outlook.pt>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.11"
+bm25s = ">=0.2.2"
+numpy = ">=2.1.2"
+pandas = ">=2.2.3"
+plotly = ">=5.24.1"
+rapidfuzz = ">=3.10.0"
+scikit-learn = ">=1.5.2"
+sentence-transformers = ">=3.1.1"
+streamlit = ">=1.39.0"
