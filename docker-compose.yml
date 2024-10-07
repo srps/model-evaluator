@@ -1,0 +1,44 @@
+services:
+  tf-serving:
+    build:
+      context: ./tf-serving
+      dockerfile: Dockerfile
+    ports:
+      - "8501:8501"
+      - "8500:8500"
+
+  streamlit-app:
+    develop:
+      # Create a `watch` configuration to update the appl
+      # https://docs.docker.com/compose/file-watch/#compose-watch-versus-bind-mounts
+      watch:
+        # Sync the working directory with the `/app` directory in the container
+        - action: sync
+          path: .
+          target: /app
+          # Exclude the project virtual environment — it could be for a
+          # different platform in the container
+          ignore:
+            - .venv/
+            - __pycache__/
+            - .git/
+            - models/
+            - tf-serving/
+
+        # Rebuild the image on changes to the `pyproject.toml`
+        - action: rebuild
+          path: ./pyproject.toml
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+    ports:
+      - "8502:8502"
+    volumes:
+      # - ./:/app:ro
+      - ./models:/app/models
+      - /app/.venv
+    environment:
+      - STREAMLIT_SERVER_PORT=8502
+      - STREAMLIT_SERVER_RUN_ON_SAVE=true
+    depends_on:
+      - tf-serving
